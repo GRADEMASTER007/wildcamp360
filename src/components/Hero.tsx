@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
+import { useEffect, useState, useMemo } from "react";
 
 const Firefly = ({ delay, duration, left, top }: { delay: number; duration: number; left: string; top: string }) => (
   <div
@@ -16,6 +17,17 @@ const Firefly = ({ delay, duration, left, top }: { delay: number; duration: numb
 );
 
 const Hero = () => {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -23,37 +35,49 @@ const Hero = () => {
     }
   };
 
-  // Generate random fireflies
-  const fireflies = Array.from({ length: 20 }, (_, i) => ({
+  // Generate random fireflies - memoized to prevent regeneration on scroll
+  const fireflies = useMemo(() => Array.from({ length: 20 }, (_, i) => ({
     id: i,
     delay: Math.random() * 8,
     duration: 4 + Math.random() * 4,
     left: `${Math.random() * 100}%`,
     top: `${Math.random() * 100}%`
-  }));
+  })), []);
+
+  // Parallax calculations
+  const backgroundY = scrollY * 0.5;
+  const contentY = scrollY * 0.2;
+  const firefliesY = scrollY * 0.3;
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated Background Image */}
+      {/* Animated Background Image with Parallax */}
       <div className="absolute inset-0 overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-hero-living scale-110"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`
+            backgroundImage: `url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`,
+            transform: `translateY(${backgroundY}px)`
           }}
         />
         <div className="absolute inset-0 bg-black/40"></div>
       </div>
 
-      {/* Floating Fireflies */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* Floating Fireflies with Parallax */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{ transform: `translateY(${firefliesY}px)` }}
+      >
         {fireflies.map((firefly) => (
           <Firefly key={firefly.id} {...firefly} />
         ))}
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+      {/* Content with Parallax */}
+      <div 
+        className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto"
+        style={{ transform: `translateY(${contentY}px)` }}
+      >
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
           Discover Your Next
           <span className="block text-yellow-400">Adventure</span>
