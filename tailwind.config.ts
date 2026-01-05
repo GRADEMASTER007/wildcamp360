@@ -97,11 +97,26 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'hero-living': {
+					'0%, 100%': {
+						transform: 'scale(1.1) translateX(0%) translateY(0%)'
+					},
+					'25%': {
+						transform: 'scale(1.15) translateX(-1%) translateY(-0.5%)'
+					},
+					'50%': {
+						transform: 'scale(1.12) translateX(0.5%) translateY(-1%)'
+					},
+					'75%': {
+						transform: 'scale(1.18) translateX(-0.5%) translateY(0.5%)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'hero-living': 'hero-living 20s ease-in-out infinite'
 			}
 		}
 	},
