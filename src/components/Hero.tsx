@@ -2,6 +2,19 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 
+const Firefly = ({ delay, duration, left, top }: { delay: number; duration: number; left: string; top: string }) => (
+  <div
+    className="absolute w-2 h-2 rounded-full bg-yellow-300 animate-firefly opacity-0"
+    style={{
+      left,
+      top,
+      animationDelay: `${delay}s`,
+      animationDuration: `${duration}s`,
+      boxShadow: '0 0 10px 4px rgba(253, 224, 71, 0.6), 0 0 20px 8px rgba(253, 224, 71, 0.3)'
+    }}
+  />
+);
+
 const Hero = () => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -9,6 +22,15 @@ const Hero = () => {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  // Generate random fireflies
+  const fireflies = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    delay: Math.random() * 8,
+    duration: 4 + Math.random() * 4,
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`
+  }));
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -21,6 +43,13 @@ const Hero = () => {
           }}
         />
         <div className="absolute inset-0 bg-black/40"></div>
+      </div>
+
+      {/* Floating Fireflies */}
+      <div className="absolute inset-0 pointer-events-none">
+        {fireflies.map((firefly) => (
+          <Firefly key={firefly.id} {...firefly} />
+        ))}
       </div>
 
       {/* Content */}
