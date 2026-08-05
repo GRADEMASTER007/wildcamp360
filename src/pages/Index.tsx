@@ -9,6 +9,7 @@ import FeaturedDestinations from "@/components/FeaturedDestinations";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
@@ -19,6 +20,7 @@ const Index = () => {
       <FeaturedDestinations />
       <About />
       <Contact />
+      <Footer />
     </div>
   );
 };
