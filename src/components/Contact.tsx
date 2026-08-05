@@ -193,15 +193,6 @@ const Contact = () => {
             </Card>
           </div>
         </div>
-
-        {/* Footer */}
-        <div className="mt-20 pt-8 border-t border-border text-center">
-          <p className="text-muted-foreground">
-            © 2024 WildCamp Adventures. All rights reserved. | 
-            <span className="mx-2">Privacy Policy</span> | 
-            <span className="mx-2">Terms of Service</span>
-          </p>
-        </div>
       </div>
     </section>
   );
